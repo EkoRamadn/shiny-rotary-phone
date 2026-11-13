@@ -1,0 +1,915 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111827">
+  <meta name="description" content="Product details on TrustMarket — Trusted shopping, made simple.">
+  <title>Wireless Bluetooth Headphones — TrustMarket</title>
+  <link rel="stylesheet" href="./styles.css">
+  <style>
+    /* ── Product Detail specific styles ── */
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      font-size: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+    .breadcrumb li {
+      display: flex;
+      align-items: center;
+    }
+    .breadcrumb a {
+      color: #9aa3b2;
+      text-decoration: none;
+      transition: color .15s;
+      letter-spacing: .1px;
+    }
+    .breadcrumb a:hover { color: #172033; }
+    .breadcrumb-sep {
+      color: #d1d5db;
+      margin: 0 7px;
+      font-size: 11px;
+      user-select: none;
+    }
+    .breadcrumb-current {
+      color: #172033;
+      font-weight: 600;
+      max-width: 240px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* ── Detail layout ── */
+    .detail-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 32px;
+      padding-block: 28px;
+    }
+
+    /* Gallery */
+    .gallery { display: flex; flex-direction: column; gap: 12px; }
+    .gallery-main {
+      position: relative;
+      aspect-ratio: 4/3;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #f2f3f5;
+      border: 1px solid #e6e9ef;
+    }
+    .gallery-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: opacity .2s;
+    }
+    .gallery-sale {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: #dc3d3d;
+      color: white;
+      padding: 6px 11px;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 6px;
+    }
+    .gallery-thumbs {
+      display: flex;
+      gap: 10px;
+    }
+    .gallery-thumb {
+      width: 72px;
+      height: 72px;
+      border-radius: 9px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      cursor: pointer;
+      flex: none;
+      background: #f2f3f5;
+      transition: border-color .15s;
+    }
+    .gallery-thumb.active { border-color: #f6bd35; }
+    .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* Info panel */
+    .detail-info { display: flex; flex-direction: column; gap: 0; }
+
+    .detail-category {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.3px;
+      color: #687386;
+      margin: 0 0 8px;
+    }
+    .detail-title {
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -.5px;
+      margin: 0 0 14px;
+    }
+
+    .detail-rating {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .detail-rating .stars { color: #f0ae18; font-size: 16px; letter-spacing: 1.5px; }
+    .detail-rating .score { font-size: 14px; font-weight: 700; color: #263246; }
+    .detail-rating .reviews { font-size: 13px; color: #6b7280; }
+    .detail-rating .sep { color: #dce1e8; }
+    .sold-info { font-size: 13px; color: #6b7280; }
+
+    /* Price */
+    .detail-price-block {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+    .detail-price { font-size: 32px; font-weight: 900; color: #172033; letter-spacing: -.5px; }
+    .detail-old-price { font-size: 16px; color: #9aa3b2; text-decoration: line-through; }
+    .detail-save {
+      font-size: 12px;
+      font-weight: 700;
+      color: #dc3d3d;
+      background: #fef1f1;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    .detail-tax { font-size: 11px; color: #9aa3b2; margin-bottom: 20px; }
+
+    /* Trust score */
+    .detail-trust {
+      border-radius: 10px;
+      padding: 13px 15px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border: 1px solid;
+    }
+    .detail-trust.good  { background: #eff9f1; color: #256b3c; border-color: #b7e4c7; }
+    .detail-trust.blue  { background: #eff6ff; color: #24568a; border-color: #bfd9f8; }
+    .detail-trust.amber { background: #fff7e8; color: #895c08; border-color: #f9d989; }
+    .trust-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.7);
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      flex: none;
+    }
+    .trust-info { flex: 1; }
+    .trust-info strong { font-size: 15px; display: block; margin-bottom: 4px; }
+    .trust-info span { font-size: 11px; opacity: .8; }
+    .trust-pill {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: rgba(255,255,255,.65);
+    }
+    .trust-bar-row { width: 100%; height: 5px; background: rgba(0,0,0,.12); border-radius: 3px; overflow: hidden; margin-top: 6px; }
+    .trust-bar-row span { display: block; height: 100%; background: currentColor; border-radius: 3px; }
+
+    /* Seller */
+    .seller-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 15px;
+      background: white;
+      border: 1px solid #e7eaf0;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    .seller-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: #111827;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      flex: none;
+    }
+    .seller-meta { flex: 1; min-width: 0; }
+    .seller-meta strong { font-size: 13px; display: block; margin-bottom: 2px; }
+    .seller-meta span { font-size: 11px; color: #687386; }
+    .seller-link { font-size: 12px; color: #2563eb; white-space: nowrap; text-decoration: none; }
+    .seller-link:hover { text-decoration: underline; }
+
+    /* Options */
+    .options-label { font-size: 13px; font-weight: 700; margin-bottom: 10px; color: #263246; }
+    .option-group { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .option-btn {
+      border: 1.5px solid #dce1e8;
+      background: white;
+      border-radius: 8px;
+      padding: 7px 15px;
+      font: inherit;
+      font-size: 13px;
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+    }
+    .option-btn.active { border-color: #f6bd35; background: #fff9e8; font-weight: 700; }
+    .option-btn:hover:not(.active) { border-color: #b8bfc9; }
+    .option-swatch {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2.5px solid #dce1e8;
+      cursor: pointer;
+      transition: border-color .15s;
+    }
+    .option-swatch.active { border-color: #f6bd35; outline: 2px solid #f6bd35; outline-offset: 2px; }
+
+    /* Quantity */
+    .qty-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+    .qty-label { font-size: 13px; font-weight: 700; color: #263246; }
+    .qty-control { display: flex; align-items: center; gap: 0; border: 1.5px solid #dce1e8; border-radius: 8px; overflow: hidden; }
+    .qty-btn {
+      width: 36px;
+      height: 36px;
+      border: 0;
+      background: #f5f6f8;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background .15s;
+      display: grid;
+      place-items: center;
+    }
+    .qty-btn:hover { background: #e9ebef; }
+    .qty-display { width: 44px; height: 36px; border: 0; text-align: center; font: inherit; font-weight: 700; font-size: 14px; background: white; }
+
+    /* CTA buttons */
+    .cta-row { display: flex; gap: 10px; margin-bottom: 14px; }
+    .cta-add {
+      flex: 1;
+      border: 0;
+      border-radius: 9px;
+      background: #f6bd35;
+      color: #171717;
+      font-weight: 700;
+      font: inherit;
+      font-size: 15px;
+      padding: 13px;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .cta-add:hover { background: #e9a917; }
+    .cta-wishlist {
+      width: 50px;
+      height: 50px;
+      border: 1.5px solid #dce1e8;
+      border-radius: 9px;
+      background: white;
+      cursor: pointer;
+      font-size: 20px;
+      display: grid;
+      place-items: center;
+      transition: border-color .15s, background .15s;
+      flex: none;
+    }
+    .cta-wishlist:hover { border-color: #dc3d3d; background: #fef1f1; }
+    .cta-buynow {
+      width: 100%;
+      border: 1.5px solid #111827;
+      border-radius: 9px;
+      background: #111827;
+      color: white;
+      font: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 13px;
+      cursor: pointer;
+      transition: background .15s;
+      margin-bottom: 20px;
+    }
+    .cta-buynow:hover { background: #263246; }
+
+    /* Perks */
+    .perks { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+    .perk {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      background: white;
+      border: 1px solid #e7eaf0;
+      border-radius: 9px;
+      font-size: 12px;
+      color: #394254;
+    }
+    .perk-icon { font-size: 16px; flex: none; }
+
+    /* Tabs section */
+    .detail-tabs-wrap { padding-block: 32px 0; }
+    .tab-list {
+      display: flex;
+      border-bottom: 2px solid #e7eaf0;
+      gap: 0;
+      margin-bottom: 24px;
+    }
+    .tab-btn {
+      border: 0;
+      background: transparent;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      color: #687386;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: color .15s;
+    }
+    .tab-btn.active { color: #172033; border-bottom-color: #f6bd35; }
+    .tab-btn:hover:not(.active) { color: #263246; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Description tab */
+    .desc-body { font-size: 14px; line-height: 1.75; color: #394254; }
+    .desc-body h3 { font-size: 16px; color: #172033; margin: 0 0 10px; }
+    .desc-body ul { padding-left: 20px; }
+    .desc-body li { margin-bottom: 6px; }
+    .spec-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 20px; }
+    .spec-table tr { border-bottom: 1px solid #edf0f4; }
+    .spec-table td { padding: 10px 12px; }
+    .spec-table td:first-child { color: #687386; font-weight: 600; width: 38%; background: #f5f6f8; }
+
+    /* Reviews tab */
+    .reviews-summary {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+      padding: 20px;
+      background: white;
+      border: 1px solid #e7eaf0;
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+    .reviews-big { text-align: center; flex: none; }
+    .reviews-big .big-num { font-size: 48px; font-weight: 900; line-height: 1; color: #172033; }
+    .reviews-big .big-stars { font-size: 20px; color: #f0ae18; letter-spacing: 2px; }
+    .reviews-big small { font-size: 11px; color: #687386; display: block; margin-top: 3px; }
+    .reviews-bars { flex: 1; display: flex; flex-direction: column; gap: 7px; }
+    .review-bar-row { display: flex; align-items: center; gap: 10px; font-size: 12px; color: #687386; }
+    .review-bar-row .bar-wrap { flex: 1; height: 7px; background: #edf0f4; border-radius: 4px; overflow: hidden; }
+    .review-bar-row .bar-fill { height: 100%; background: #f0ae18; border-radius: 4px; }
+    .review-bar-row .pct { width: 32px; text-align: right; font-weight: 600; color: #394254; }
+
+    .review-card {
+      padding: 18px;
+      background: white;
+      border: 1px solid #e7eaf0;
+      border-radius: 11px;
+      margin-bottom: 14px;
+    }
+    .review-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+    .reviewer-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #111827;
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      font-weight: 700;
+      flex: none;
+    }
+    .reviewer-info strong { font-size: 13px; display: block; }
+    .reviewer-info span { font-size: 11px; color: #687386; }
+    .review-stars { color: #f0ae18; font-size: 13px; margin-left: auto; }
+    .review-verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      color: #256b3c;
+      background: #eff9f1;
+      padding: 2px 8px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+    }
+    .review-body { font-size: 13px; line-height: 1.65; color: #394254; }
+    .review-helpful { margin-top: 10px; font-size: 11px; color: #9aa3b2; }
+    .review-helpful button {
+      border: 0;
+      background: transparent;
+      color: #2563eb;
+      cursor: pointer;
+      font-size: 11px;
+      padding: 0 4px;
+    }
+
+    /* ── Related products ── */
+    .related-section { padding-block: 32px; }
+    .related-section h2 { font-size: 20px; font-weight: 800; letter-spacing: -.4px; margin: 0 0 18px; }
+
+    /* Sticky bottom bar (mobile) */
+    .sticky-bar {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid #e7eaf0;
+      padding: 12px 20px;
+      z-index: 10;
+      gap: 10px;
+    }
+    .sticky-price { font-size: 20px; font-weight: 900; }
+    .sticky-add {
+      flex: 1;
+      border: 0;
+      border-radius: 9px;
+      background: #f6bd35;
+      color: #171717;
+      font: inherit;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 11px;
+      cursor: pointer;
+    }
+    .sticky-add:hover { background: #e9a917; }
+
+    /* Responsive */
+    @media(max-width: 900px) {
+      .detail-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .gallery-main { aspect-ratio: 16/9; }
+    }
+    @media(max-width: 700px) {
+      .detail-title { font-size: 20px; }
+      .detail-price { font-size: 26px; }
+      .perks { grid-template-columns: 1fr; }
+      .reviews-summary { flex-direction: column; gap: 16px; }
+      .sticky-bar { display: flex; align-items: center; }
+      .tab-btn { font-size: 13px; padding: 10px 14px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ── Top bar (same as index) ── -->
+  <header class="topbar">
+    <div class="nav wrap">
+      <button class="icon-button menu-button" id="menu-toggle" aria-label="Menu">☰</button>
+      <a class="brand" href="./index.html">TrustMarket</a>
+      <form class="search" id="search-form" role="search">
+        <label class="sr-only" for="search-input">Search products</label>
+        <input id="search-input" type="search" placeholder="Search products...">
+        <button aria-label="Search">⌕</button>
+      </form>
+      <button class="nav-action" id="cart-toggle" aria-label="Open cart">🛒 <span class="nav-label">Cart (<span id="cart-count">0</span>)</span></button>
+      <button class="nav-action" id="account-button">♙ <span class="nav-label">Account</span></button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <!-- Breadcrumb -->
+    <nav aria-label="Breadcrumb">
+      <ol class="breadcrumb">
+        <li><a href="./index.html">Home</a></li>
+        <li><span class="breadcrumb-sep">/</span></li>
+        <li><a href="./index.html">Electronics</a></li>
+        <li><span class="breadcrumb-sep">/</span></li>
+        <li><a href="./index.html">Headphones</a></li>
+        <li><span class="breadcrumb-sep">/</span></li>
+        <li><span class="breadcrumb-current" aria-current="page">Wireless Bluetooth Headphones</span></li>
+      </ol>
+    </nav>
+
+    <!-- Main detail grid -->
+    <div class="detail-layout">
+
+      <!-- ── Left: Gallery ── -->
+      <div class="gallery">
+        <div class="gallery-main">
+          <img id="main-img" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=900&h=700&fit=crop" alt="Wireless Bluetooth Headphones">
+          <span class="gallery-sale">Save $20.00</span>
+        </div>
+        <div class="gallery-thumbs">
+          <button class="gallery-thumb active" data-img="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=900&h=700&fit=crop" aria-label="View image 1">
+            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&h=200&fit=crop" alt="">
+          </button>
+          <button class="gallery-thumb" data-img="https://images.unsplash.com/photo-1484704849700-f032a568e944?w=900&h=700&fit=crop" aria-label="View image 2">
+            <img src="https://images.unsplash.com/photo-1484704849700-f032a568e944?w=200&h=200&fit=crop" alt="">
+          </button>
+          <button class="gallery-thumb" data-img="https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=900&h=700&fit=crop" aria-label="View image 3">
+            <img src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=200&h=200&fit=crop" alt="">
+          </button>
+          <button class="gallery-thumb" data-img="https://images.unsplash.com/photo-1524678606370-a47ad25cb82a?w=900&h=700&fit=crop" aria-label="View image 4">
+            <img src="https://images.unsplash.com/photo-1524678606370-a47ad25cb82a?w=200&h=200&fit=crop" alt="">
+          </button>
+        </div>
+      </div>
+
+      <!-- ── Right: Info ── -->
+      <div class="detail-info">
+        <p class="detail-category">Electronics · Headphones</p>
+        <h1 class="detail-title">Wireless Bluetooth Headphones</h1>
+
+        <!-- Rating row -->
+        <div class="detail-rating">
+          <span class="stars" aria-label="Rated 4.5 out of 5">★★★★☆</span>
+          <span class="score">4.5</span>
+          <span class="sep">|</span>
+          <span class="reviews">1,247 reviews</span>
+          <span class="sep">|</span>
+          <span class="sold-info">3.2k sold</span>
+        </div>
+
+        <!-- Price -->
+        <div class="detail-price-block">
+          <span class="detail-price">$79.99</span>
+          <span class="detail-old-price">$99.99</span>
+          <span class="detail-save">20% OFF</span>
+        </div>
+        <p class="detail-tax">Inclusive of all taxes. Free delivery on orders over $50.</p>
+
+        <!-- Trust score -->
+        <div class="detail-trust good">
+          <div class="trust-icon">✓</div>
+          <div class="trust-info">
+            <strong>Trust Score: 92%</strong>
+            <div class="trust-bar-row"><span style="width:92%"></span></div>
+            <span>AI-verified seller · Authentic product · High review quality</span>
+          </div>
+          <span class="trust-pill">Excellent</span>
+        </div>
+
+        <!-- Seller card -->
+        <div class="seller-card">
+          <div class="seller-avatar">🎧</div>
+          <div class="seller-meta">
+            <strong>TechGear Pro</strong>
+            <span>★★★★★ 4.9 · 12,847 sales · Member since 2019</span>
+          </div>
+          <a href="#" class="seller-link">View store →</a>
+        </div>
+
+        <!-- Color option -->
+        <p class="options-label">Color</p>
+        <div class="option-group" id="color-opts">
+          <button class="option-swatch active" style="background:#1a1a2e;" aria-label="Midnight Black" title="Midnight Black"></button>
+          <button class="option-swatch" style="background:#e8e8e8;" aria-label="Pearl White" title="Pearl White"></button>
+          <button class="option-swatch" style="background:#c0392b;" aria-label="Ruby Red" title="Ruby Red"></button>
+          <button class="option-swatch" style="background:#2980b9;" aria-label="Ocean Blue" title="Ocean Blue"></button>
+        </div>
+
+        <!-- Edition option -->
+        <p class="options-label">Edition</p>
+        <div class="option-group" id="edition-opts">
+          <button class="option-btn active">Standard</button>
+          <button class="option-btn">Noise-Cancelling</button>
+          <button class="option-btn">Pro Wireless</button>
+        </div>
+
+        <!-- Quantity -->
+        <div class="qty-row">
+          <span class="qty-label">Quantity</span>
+          <div class="qty-control">
+            <button class="qty-btn" id="qty-dec" aria-label="Decrease quantity">−</button>
+            <input class="qty-display" id="qty-display" type="number" value="1" min="1" max="99" readonly>
+            <button class="qty-btn" id="qty-inc" aria-label="Increase quantity">+</button>
+          </div>
+          <span style="font-size:12px;color:#9aa3b2;">Only 8 left in stock</span>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-row">
+          <button class="cta-add" id="detail-add-btn">🛒 Add to Cart</button>
+          <button class="cta-wishlist" id="wishlist-btn" aria-label="Add to wishlist">♡</button>
+        </div>
+        <button class="cta-buynow" id="buynow-btn">⚡ Buy Now</button>
+
+        <!-- Perks -->
+        <div class="perks">
+          <div class="perk"><span class="perk-icon">🚚</span>Free shipping over $50</div>
+          <div class="perk"><span class="perk-icon">↩️</span>30-day free returns</div>
+          <div class="perk"><span class="perk-icon">🛡️</span>2-year warranty</div>
+          <div class="perk"><span class="perk-icon">🔒</span>Secure checkout</div>
+        </div>
+      </div>
+    </div><!-- /detail-layout -->
+
+    <!-- ── Tabs: Description / Specs / Reviews ── -->
+    <div class="detail-tabs-wrap">
+      <div class="tab-list" role="tablist">
+        <button class="tab-btn active" role="tab" aria-selected="true" data-tab="description">Description</button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-tab="specs">Specifications</button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-tab="reviews">Reviews (1,247)</button>
+      </div>
+
+      <!-- Description -->
+      <div class="tab-panel active" id="tab-description">
+        <div class="desc-body">
+          <h3>Premium Sound, Total Freedom</h3>
+          <p>Experience music like never before with these premium wireless Bluetooth headphones. Engineered for audiophiles and casual listeners alike, they deliver rich, clear sound with deep bass and crisp highs — all without a single wire.</p>
+          <ul>
+            <li>40-hour battery life with quick charge (10 min = 3 hours playback)</li>
+            <li>Bluetooth 5.3 with 15m range and multipoint connection (2 devices)</li>
+            <li>Premium 40mm drivers with custom-tuned acoustic chambers</li>
+            <li>Foldable, lightweight design — weighs only 250g</li>
+            <li>Built-in voice assistant support (Google Assistant / Siri)</li>
+            <li>Compatible with Android, iOS, Windows, and macOS</li>
+          </ul>
+          <p>The soft memory foam ear cushions and adjustable headband ensure hours of comfortable wear, whether you're commuting, working from home, or just unwinding.</p>
+        </div>
+      </div>
+
+      <!-- Specs -->
+      <div class="tab-panel" id="tab-specs">
+        <table class="spec-table">
+          <tbody>
+            <tr><td>Connectivity</td><td>Bluetooth 5.3</td></tr>
+            <tr><td>Range</td><td>Up to 15 metres</td></tr>
+            <tr><td>Battery Life</td><td>40 hours playback</td></tr>
+            <tr><td>Charge Time</td><td>2 hours (USB-C)</td></tr>
+            <tr><td>Driver Size</td><td>40mm dynamic drivers</td></tr>
+            <tr><td>Frequency Response</td><td>20Hz – 20kHz</td></tr>
+            <tr><td>Impedance</td><td>32Ω</td></tr>
+            <tr><td>Weight</td><td>250g</td></tr>
+            <tr><td>Microphone</td><td>Built-in noise-reducing mic</td></tr>
+            <tr><td>Compatibility</td><td>Android, iOS, Windows, macOS</td></tr>
+            <tr><td>Folding Design</td><td>Yes — travel-friendly</td></tr>
+            <tr><td>Colors Available</td><td>Midnight Black, Pearl White, Ruby Red, Ocean Blue</td></tr>
+            <tr><td>Warranty</td><td>2 years manufacturer's warranty</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Reviews -->
+      <div class="tab-panel" id="tab-reviews">
+        <!-- Summary bar -->
+        <div class="reviews-summary">
+          <div class="reviews-big">
+            <div class="big-num">4.5</div>
+            <div class="big-stars">★★★★☆</div>
+            <small>1,247 reviews</small>
+          </div>
+          <div class="reviews-bars">
+            <div class="review-bar-row"><span>5★</span><div class="bar-wrap"><div class="bar-fill" style="width:62%"></div></div><span class="pct">62%</span></div>
+            <div class="review-bar-row"><span>4★</span><div class="bar-wrap"><div class="bar-fill" style="width:22%"></div></div><span class="pct">22%</span></div>
+            <div class="review-bar-row"><span>3★</span><div class="bar-wrap"><div class="bar-fill" style="width:9%"></div></div><span class="pct">9%</span></div>
+            <div class="review-bar-row"><span>2★</span><div class="bar-wrap"><div class="bar-fill" style="width:4%"></div></div><span class="pct">4%</span></div>
+            <div class="review-bar-row"><span>1★</span><div class="bar-wrap"><div class="bar-fill" style="width:3%"></div></div><span class="pct">3%</span></div>
+          </div>
+        </div>
+
+        <!-- Individual reviews -->
+        <div class="review-card">
+          <div class="review-head">
+            <div class="reviewer-avatar">JK</div>
+            <div class="reviewer-info">
+              <strong>James K.</strong>
+              <span>November 2, 2026</span>
+            </div>
+            <div class="review-stars">★★★★★</div>
+          </div>
+          <span class="review-verified">✓ Verified Purchase</span>
+          <p class="review-body">Absolutely love these headphones! Sound quality is incredible for the price. Battery lasts way longer than I expected — I charged them once and used them for almost 3 days straight. Super comfortable even after hours of wear.</p>
+          <div class="review-helpful">Was this helpful? <button>Yes (42)</button> <button>No (3)</button></div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-head">
+            <div class="reviewer-avatar">SR</div>
+            <div class="reviewer-info">
+              <strong>Sarah R.</strong>
+              <span>October 28, 2026</span>
+            </div>
+            <div class="review-stars">★★★★☆</div>
+          </div>
+          <span class="review-verified">✓ Verified Purchase</span>
+          <p class="review-body">Great headphones overall. The sound is rich and clear. My only minor complaint is that the connection occasionally drops for a split second, but it's really not a big deal. Would definitely recommend to anyone looking for a solid pair of wireless headphones.</p>
+          <div class="review-helpful">Was this helpful? <button>Yes (28)</button> <button>No (1)</button></div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-head">
+            <div class="reviewer-avatar">ML</div>
+            <div class="reviewer-info">
+              <strong>Marcus L.</strong>
+              <span>October 15, 2026</span>
+            </div>
+            <div class="review-stars">★★★★★</div>
+          </div>
+          <span class="review-verified">✓ Verified Purchase</span>
+          <p class="review-body">Best bang for your buck. I compared these to headphones costing 3x the price and honestly couldn't tell a huge difference. TechGear Pro ships fast and packaging was excellent. Very happy with this purchase.</p>
+          <div class="review-helpful">Was this helpful? <button>Yes (19)</button> <button>No (0)</button></div>
+        </div>
+      </div>
+    </div><!-- /tabs -->
+
+    <!-- ── Related Products ── -->
+    <section class="related-section">
+      <h2>You Might Also Like</h2>
+      <div class="product-grid" id="related-grid"></div>
+    </section>
+  </div><!-- /wrap -->
+
+  <!-- Toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Cart dialog (same as index) -->
+  <dialog id="cart-dialog" class="cart-dialog">
+    <div class="dialog-head">
+      <h2>Your cart</h2>
+      <button class="icon-button" id="close-cart" aria-label="Close cart">×</button>
+    </div>
+    <div id="cart-items"></div>
+    <div class="cart-total"><strong>Total</strong><strong id="cart-total">$0.00</strong></div>
+    <button class="add-button checkout-button" id="checkout-button">Proceed to checkout</button>
+  </dialog>
+
+  <!-- Sticky mobile bar -->
+  <div class="sticky-bar" id="sticky-bar">
+    <span class="sticky-price">$79.99</span>
+    <button class="sticky-add" id="sticky-add-btn">Add to Cart</button>
+  </div>
+
+  <script>
+    // ── Product data ──
+    const PRODUCT = {
+      id: 1,
+      name: "Wireless Bluetooth Headphones",
+      price: 79.99,
+      originalPrice: 99.99,
+      image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=500&fit=crop",
+      rating: 4.5,
+      reviews: 1247,
+      seller: "TechGear Pro",
+      trust: 92,
+      category: "Electronics"
+    };
+
+    const relatedProducts = [
+      {id:3,name:"Smart Home Security Camera",price:149.99,originalPrice:199.99,image:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=500&fit=crop",rating:4.7,reviews:2103,seller:"SecureHome Tech",trust:96,category:"Electronics"},
+      {id:6,name:"LED Desk Lamp with USB Charging",price:34.99,originalPrice:49.99,image:"https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&h=500&fit=crop",rating:4.2,reviews:328,seller:"Office Solutions",trust:78,category:"Home & Garden"},
+      {id:7,name:"Noise-Cancelling Earbuds Pro",price:59.99,image:"https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600&h=500&fit=crop",rating:4.6,reviews:980,seller:"TechGear Pro",trust:92,category:"Electronics"},
+      {id:8,name:"Portable Bluetooth Speaker",price:44.99,originalPrice:59.99,image:"https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600&h=500&fit=crop",rating:4.4,reviews:654,seller:"SoundWave",trust:87,category:"Electronics"}
+    ];
+
+    // ── Cart ──
+    const cart = new Map();
+    const money = n => `$${n.toFixed(2)}`;
+    const toast = document.querySelector("#toast");
+    let toastTimer;
+
+    function notify(msg) {
+      toast.textContent = msg;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 2100);
+    }
+
+    function renderCart() {
+      const entries = [...cart.entries()];
+      const allProducts = [PRODUCT, ...relatedProducts];
+      document.querySelector("#cart-count").textContent = entries.reduce((n, [, q]) => n + q, 0);
+      document.querySelector("#cart-items").innerHTML = entries.length
+        ? entries.map(([id, q]) => {
+            const p = allProducts.find(x => x.id === id);
+            return `<div class="cart-line"><span>${p.name} × ${q}</span><span>${money(p.price * q)} <button data-remove="${id}" aria-label="Remove ${p.name}">Remove</button></span></div>`;
+          }).join("")
+        : "<p>Your cart is empty.</p>";
+      document.querySelector("#cart-total").textContent = money(
+        entries.reduce((total, [id, q]) => total + allProducts.find(p => p.id === id).price * q, 0)
+      );
+    }
+
+    function addToCart(id, name) {
+      cart.set(id, (cart.get(id) || 0) + qty());
+      renderCart();
+      notify(`${name} added to cart`);
+    }
+
+    // ── Quantity ──
+    let quantity = 1;
+    const qty = () => quantity;
+    const qtyDisplay = document.querySelector("#qty-display");
+
+    document.querySelector("#qty-inc").addEventListener("click", () => {
+      if (quantity < 99) { quantity++; qtyDisplay.value = quantity; }
+    });
+    document.querySelector("#qty-dec").addEventListener("click", () => {
+      if (quantity > 1) { quantity--; qtyDisplay.value = quantity; }
+    });
+
+    // ── Add to cart buttons ──
+    document.querySelector("#detail-add-btn").addEventListener("click", () => addToCart(PRODUCT.id, PRODUCT.name));
+    document.querySelector("#sticky-add-btn").addEventListener("click", () => addToCart(PRODUCT.id, PRODUCT.name));
+    document.querySelector("#buynow-btn").addEventListener("click", () => notify("Checkout demo — connect a payment service to accept orders"));
+
+    // ── Wishlist ──
+    let wishlisted = false;
+    const wishBtn = document.querySelector("#wishlist-btn");
+    wishBtn.addEventListener("click", () => {
+      wishlisted = !wishlisted;
+      wishBtn.textContent = wishlisted ? "♥" : "♡";
+      wishBtn.style.color = wishlisted ? "#dc3d3d" : "";
+      notify(wishlisted ? "Added to wishlist" : "Removed from wishlist");
+    });
+
+    // ── Gallery ──
+    const mainImg = document.querySelector("#main-img");
+    document.querySelectorAll(".gallery-thumb").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".gallery-thumb").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        mainImg.style.opacity = 0;
+        setTimeout(() => { mainImg.src = btn.dataset.img; mainImg.style.opacity = 1; }, 150);
+      });
+    });
+
+    // ── Option selectors ──
+    document.querySelectorAll("#color-opts .option-swatch").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("#color-opts .option-swatch").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+      });
+    });
+    document.querySelectorAll("#edition-opts .option-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("#edition-opts .option-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+      });
+    });
+
+    // ── Tabs ──
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach(b => { b.classList.remove("active"); b.setAttribute("aria-selected", "false"); });
+        document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+        btn.classList.add("active");
+        btn.setAttribute("aria-selected", "true");
+        document.querySelector(`#tab-${btn.dataset.tab}`).classList.add("active");
+      });
+    });
+
+    // ── Related products ──
+    function trustClass(score) { return score >= 90 ? "good" : score >= 80 ? "blue" : "amber"; }
+    document.querySelector("#related-grid").innerHTML = relatedProducts.map(p => `
+      <article class="product-card">
+        <div class="image-wrap">
+          <img class="product-image" src="${p.image}" alt="${p.name}" loading="lazy">
+          ${p.originalPrice ? `<span class="sale-tag">Save ${money(p.originalPrice - p.price)}</span>` : ""}
+        </div>
+        <h2>${p.name}</h2>
+        <div class="rating" aria-label="Rated ${p.rating} out of 5">${"★".repeat(Math.floor(p.rating))}${"☆".repeat(5 - Math.floor(p.rating))}<span class="rating-count">(${p.reviews.toLocaleString()})</span></div>
+        <div class="price-line"><span class="price">${money(p.price)}</span>${p.originalPrice ? `<span class="old-price">${money(p.originalPrice)}</span>` : ""}</div>
+        <div class="seller">by <span>${p.seller}</span></div>
+        <div class="trust ${trustClass(p.trust)}">
+          <div><span class="trust-label">Trust Score</span> <strong>${p.trust}%</strong><div class="trust-bar"><span style="width:${p.trust}%"></span></div></div>
+          <span>${p.trust >= 90 ? "Excellent" : p.trust >= 80 ? "Very Good" : "Good"}</span>
+        </div>
+        <button class="add-button" data-add="${p.id}" data-name="${p.name}">Add to Cart</button>
+      </article>`).join("");
+
+    document.querySelector("#related-grid").addEventListener("click", e => {
+      const btn = e.target.closest("[data-add]");
+      if (btn) addToCart(Number(btn.dataset.add), btn.dataset.name);
+    });
+
+    // ── Cart dialog ──
+    document.querySelector("#cart-toggle").addEventListener("click", () => document.querySelector("#cart-dialog").showModal());
+    document.querySelector("#close-cart").addEventListener("click", () => document.querySelector("#cart-dialog").close());
+    document.querySelector("#cart-items").addEventListener("click", e => {
+      const btn = e.target.closest("[data-remove]");
+      if (btn) { cart.delete(Number(btn.dataset.remove)); renderCart(); }
+    });
+    document.querySelector("#checkout-button").addEventListener("click", () => notify("Checkout demo — connect a payment service to accept orders"));
+    document.querySelector("#account-button").addEventListener("click", () => notify("Account sign-in is not included in this static demo"));
+
+    // ── Search redirect ──
+    document.querySelector("#search-form").addEventListener("submit", e => {
+      e.preventDefault();
+      const q = document.querySelector("#search-input").value.trim();
+      if (q) window.location.href = `./index.html`;
+    });
+
+    renderCart();
+  </script>
+</body>
+</html>
